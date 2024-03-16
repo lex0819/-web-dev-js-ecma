@@ -1,123 +1,223 @@
 'use strict';
 
 // Задание 1 (тайминг 20 минут)
-// 1. Создайте объект Person, представляющий человека, с следующими свойствами: name, age и gender. Добавьте также методы introduce и changeName. Метод introduce должен выводить информацию о человеке, включая его имя, возраст и пол. Метод changeName должен изменять имя человека на новое заданное значение.
-// Person.name = "John";
-// Person.age = 25;
-// Person.gender = "male";
-// Person.introduce(); // Ожидаемый результат: My name is John. I'm 25 years old and I identify as male. Person.changeName("Mike");
+// Напишите функцию getPrototypeChain(obj), которая будет возвращать цепочку прототипов для заданного объекта obj. Функция должна вернуть массив прототипов, начиная от самого объекта и заканчивая глобальным объектом Object.prototype.
 
-const Person = {
-    name: '',
-    age: 0,
-    gender: '',
-    introduce() {
-        console.log(
-            `My name is ${this.name}. I'm ${this.age} years old and I identify as ${this.gender}.`
-        );
-    },
-    changeName(newName) {
-        this.name = newName;
+function getPrototypeChain(obj) {
+    const prototypeChain = [];
+
+    let currentObj = obj;
+
+    while (currentObj !== null) {
+        prototypeChain.push(currentObj);
+        currentObj = Object.getPrototypeOf(currentObj);
+    }
+
+    return prototypeChain;
+}
+
+// Объект робот-пылесос.
+const MusicSeries = {
+    // Объявляем новые свойства и переопределяем свойство model.
+    model: 'music series',
+    power: 200,
+    batterySize: 2100,
+    boxSize: 0.5,
+    workTime: 45,
+    // Добавляем новый метод.
+    startWipe: function () {
+        // Добавим дополнительный вывод, чтобы знать чей метод мы вызвали.
+        console.log('I am the method of MusicSeries');
+        console.log('I am starting to wipe the floor...');
     },
 };
 
-Person.name = 'John';
-Person.age = 25;
-Person.gender = 'male';
-Person.introduce();
-Person.changeName('Mike');
-Person.introduce();
+// Объект робот-пылесос.
+const Blues = {
+    // Обновляем свойства под конкретную модель.
+    model: 'Bluees-1',
+    power: 250,
+    batterySize: 2500,
+    workTime: 50,
+};
+// Установим прототип для робота.
+Object.setPrototypeOf(Blues, MusicSeries);
+
+const prototypeChain = getPrototypeChain(Blues);
+console.log(prototypeChain);
 
 // Задание 2 (20минут)
-// 1. Создайте объект Animal со свойством name и методом eat(), который выводит сообщение о том, что животное ест. Создайте объект Dog со свойством name и методом bark(), который выводит сообщение о том, что собака лает. Используйте одалживание метода eat() из объекта Animal для объекта Dog, чтобы вывести сообщение о том, что собака ест.
-// // Одалживание метода eat() из объекта Animal к объекту Dog Dog.eat = Animal.eat;
-// Dog.eat(); // Вывод: Rex is eating.
+// Напишите конструктор объекта Person, который принимает два аргумента: name (строка) и age (число). Конструктор должен создавать объект с указанными свойствами name и age и методом introduce(), который выводит в консоль строку вида "Меня зовут [name] и мне [age] лет.".
+// // Пример:
+// const person1 = new Person("John", 25);
+// person1.introduce(); // Вывод: Меня зовут John и мне 25 лет.
 
-const Animal = {
-    name: '',
-    eat() {
-        console.log(`The ${this.name} is eating.`);
-    },
-};
-
-const Dog = {
-    name: 'Rex',
-    bark() {
-        console.log(`The ${this.name} is barking.`);
-    },
-    eat: Animal.eat,
-};
-Dog.eat();
-
-// Задание 3 (call, apply 20 минут)
-// 1. Создайте объект calculator с методами add(), subtract() и multiply(), которые выполняют соответствующие математические операции над двумя числами. Используйте методы call и apply для вызова этих методов с передачей аргументов.
-// console.log(calculator.add.call(null, 5, 3)); // Вывод: 8 console.log(calculator.subtract.apply(null, [5, 3])); // Вывод: 2
-
-const calculator = {
-    add(a, b) {
-        return a + b;
-    },
-    subtract(a, b) {
-        return a - b;
-    },
-    multiply(a, b) {
-        return a * b;
-    },
-};
-
-console.log(calculator.add.call(null, 5, 3));
-console.log(calculator.subtract.apply(null, [5, 3]));
-
-// Задание 4 (Объекты через class 25 минут)
-// 1. Создайте класс Person, который имеет свойства name и age, а также метод introduce(), который выводит сообщение с представлением имени и возраста персоны.
-// const person = new Person("John", 25);
-// person.introduce(); // Вывод: My name is John and I'm 25 years old.
-
-class Person02 {
+class Person {
     constructor(name, age) {
         this.name = name;
         this.age = age;
     }
     introduce() {
-        console.log(`My name is ${this.name} and I'm ${this.age} years old.`);
+        console.log(`Меня зовут ${this.name} и мне ${this.age} лет.`);
     }
 }
+const person1 = new Person('John', 25);
+person1.introduce();
 
-const person02 = new Person02('John', 25);
-person02.introduce();
-
-// Задание 5 (Class 30 минут)
-// Создайте класс BankAccount, который представляет банковский счет. У него должны быть свойства accountNumber (номер счета) и balance (баланс), а также методы deposit(amount) для пополнения счета и withdraw(amount) для снятия денег со счета. Класс должен иметь также статическое свойство bankName, которое содержит название банка.
-// const account1 = new BankAccount("1234567890", 1000); account1.deposit(500); // Вывод: Deposited 500 into account 1234567890. New balance: 1500
-// account1.withdraw(200); // Вывод: Withdrawn 200 from account 1234567890. New balance: 1300
-// account1.withdraw(1500); // Вывод: Insufficient funds in account 1234567890
+// Задание 3 (call, apply 20 минут)
+// Напишите конструктор объекта BankAccount, который будет представлять банковский счет. Конструктор должен принимать два аргумента: accountNumber (строка) и balance (число). Конструктор должен создавать объект с указанными свойствами accountNumber и balance и следующими методами:
+// 1. deposit(amount): принимает аргумент amount (число) и увеличивает баланс на указанную сумму.
+// 2. withdraw(amount): принимает аргумент amount (число) и уменьшает баланс на указанную сумму, если на счету есть достаточно средств. Если средств недостаточно, выводится сообщение "Недостаточно средств на счете.".
+// 3. getBalance(): возвращает текущий баланс счета.
+// (Пример )
+// const account1 = new BankAccount("1234567890", 1000); console.log(account1.getBalance()); // Вывод: 1000 account1.deposit(500);
+// console.log(account1.getBalance()); // Вывод: 1500 account1.withdraw(200);
+// console.log(account1.getBalance()); // Вывод: 1300 account1.withdraw(2000); // Вывод: "Недостаточно средств на счете."
 
 class BankAccount {
-    static bankName = 'My Best Bank';
-    constructor(accountNumber, balance = 0) {
+    constructor(accountNumber, balance) {
         this.accountNumber = accountNumber;
         this.balance = balance;
     }
-
     deposit(amount) {
         this.balance += amount;
-        console.log(
-            `Deposited ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`
-        );
     }
     withdraw(amount) {
-        if (this.balance >= amount) {
+        if (this.balance > amount) {
             this.balance -= amount;
-            console.log(
-                `Withdrawn ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`
-            );
         } else {
-            console.log(`Insufficient funds in account ${this.accountNumber}.`);
+            console.log('Недостаточно средств на счете.');
         }
+    }
+    getBalance() {
+        return this.balance;
     }
 }
 
 const account1 = new BankAccount('1234567890', 1000);
+console.log(account1.getBalance());
 account1.deposit(500);
+console.log(account1.getBalance());
 account1.withdraw(200);
-account1.withdraw(1500);
+console.log(account1.getBalance());
+account1.withdraw(2000);
+
+// Задание 4 (Class 30 минут)
+// Создайте класс Animal, который будет представлять животное. У класса Animal должны быть следующие свойства и методы:
+// ● Свойство name (строка) - имя животного.
+// ● Метод speak() - выводит в консоль звук, издаваемый животным.
+// Создайте подкласс Dog, который наследует класс Animal. Для подкласса Dog добавьте дополнительное свойство и метод:
+// ● Свойство breed (строка) - порода собаки.
+// ● Метод fetch() - выводит в консоль сообщение "Собака [name]
+// принесла мяч.".
+// (Пример использования)
+// const animal1 = new Animal("Животное"); animal1.speak(); // Вывод: Животное издает звук.
+// const dog1 = new Dog("Бобик", "Дворняжка"); dog1.speak(); // Вывод: Животное Бобик издает звук. console.log(dog1.breed); // Вывод: Дворняжка dog1.fetch(); // Вывод: Собака Бобик принесла мяч.
+
+class Animal {
+    constructor(name = '') {
+        this.name = name;
+    }
+    speak() {
+        console.log(`Животное ${this.name} издает звук`);
+    }
+}
+
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name);
+        this.breed = breed;
+    }
+    fetch() {
+        console.log(`Собака ${this.name} принесла мяч`);
+    }
+}
+
+const animal1 = new Animal();
+animal1.speak();
+const dog1 = new Dog('Бобик', 'Дворняжка');
+dog1.speak();
+console.log(dog1.breed);
+dog1.fetch();
+
+// Задание 5 (40 минут)
+// Создайте класс Product, который будет представлять товар в магазине.
+// У товара должны быть следующие свойства:
+// • name (строка) - имя товара.
+// • price (число) - цена товара за одну единицу.
+// Создайте класс ShoppingCart, представляющий корзину интернет-магазина.
+// Конструктор класса ShoppingCart должен принимать два параметра:
+// • customerName (строка) - имя покупателя.
+// • initialTotalCost (число) - начальная общая стоимость заказа
+// (может быть равна 0, если корзина пуста).
+// У класса ShoppingCart должен быть метод addItem (product, quantity),
+// который позволяет добавить товар в корзину. Метод должен принимать два параметра:
+// • product (объект класса Product) - товар, который добавляется в корзину.
+// • quantity (число, по умолчанию 1) - количество единиц товара, которое нужно добавить в корзину. Если quantity не указано, считается, что добавляется одна единица товара.
+// У класса ShoppingCart должен быть метод getCurrentTotalCost (), который возвращает текущую общую стоимость заказа.
+// У класса ShoppingCart должен быть метод checkout (), который оформляет заказ и выводит сообщение с общей стоимостью заказа и благодарностью за покупку.
+// Формат вывода сообщения:
+// "Заказ оформлен для {имя покупателя). Общая стоимость заказа: (общая стоимость! рублей. Спасибо за покупку!".
+
+class Product {
+    constructor(name, price) {
+        this.name = name;
+        this.price = price;
+    }
+}
+
+class ShoppingCart {
+    constructor(customerName, initialTotalCost = 0) {
+        this.customerName = customerName;
+        this.totalCost = initialTotalCost;
+        this.items = [];
+        this.cart = [];
+    }
+
+    addItem(product, quantity = 1) {
+        for (let i = 0; i < quantity; i++) {
+            this.items.push(product);
+        }
+    }
+
+    addProduct(product, quantity = 1) {
+        this.totalCost += product.price * quantity;
+        this.cart.push({ product, quantity });
+    }
+
+    getCurrentTotalCostbyItems() {
+        return this.items.reduce((accum, product) => accum + product.price, 0);
+    }
+
+    getCurrentTotalCostbyCart() {
+        return this.totalCost;
+    }
+
+    checkoutbyItems() {
+        console.log(
+            `Заказ оформлен для ${
+                this.customerName
+            }. Общая стоимость заказа: ${this.getCurrentTotalCostbyItems()}. Спасибо за покупку!`
+        );
+    }
+
+    checkoutbyCart() {
+        console.log('Cart is', this.cart);
+        console.log(
+            `Заказ оформлен для ${this.customerName}. Общая стоимость заказа: ${this.totalCost}. Спасибо за покупку!`
+        );
+    }
+}
+
+const product01 = new Product('iphone', 1000);
+const product02 = new Product('samsung', 500);
+
+const customer = new ShoppingCart('Lex');
+customer.addItem(product01, 2);
+customer.addProduct(product01, 2);
+
+customer.addItem(product02, 3);
+customer.addProduct(product02, 3);
+
+customer.checkoutbyItems();
+customer.checkoutbyCart();

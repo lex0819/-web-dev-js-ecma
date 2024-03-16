@@ -1,208 +1,123 @@
 'use strict';
 
 // Задание 1 (тайминг 20 минут)
+// 1. Создайте объект Person, представляющий человека, с следующими свойствами: name, age и gender. Добавьте также методы introduce и changeName. Метод introduce должен выводить информацию о человеке, включая его имя, возраст и пол. Метод changeName должен изменять имя человека на новое заданное значение.
+// Person.name = "John";
+// Person.age = 25;
+// Person.gender = "male";
+// Person.introduce(); // Ожидаемый результат: My name is John. I'm 25 years old and I identify as male. Person.changeName("Mike");
 
-// 1. Создайте функцию mergeArrays, которая принимает два массива и возвращает новый массив, содержащий все элементы из обоих массивов. Используйте spread оператор для объединения массивов.
-
-// mergeArrays([1, 2, 3], [4, 5, 6]); // Ожидаемый результат: [1,2, 3, 4, 5, 6]
-
-const arr01 = [1, 2, 3];
-const arr02 = [4, 5, 6];
-
-const mergeArrays = (arr1, arr2) => [...arr1, ...arr2];
-
-console.log(mergeArrays(arr01, arr02));
-
-// 2. Создайте функцию removeDuplicates, которая принимает любое количество аргументов и возвращает новый массив, содержащий только уникальные значения. Используйте rest оператор для сбора всех аргументов в массив а затем filter для определения дубликатов.
-
-// removeDuplicates(1, 2, 3, 2, 4, 1, 5); // Ожидаемый результат: [1, 2, 3, 4, 5]
-
-const removeDuplicates = (...theArgs) =>
-    theArgs.filter((value, index) => theArgs.indexOf(value) === index);
-
-console.log(removeDuplicates(1, 2, 3, 2, 4, 1, 5));
-
-// Задание 2 (Чистые функции 25минут)
-// Текст задания
-// 1. Напишите функцию getEvenNumbers, которая принимает массив чисел в качестве аргумента и возвращает новый массив, содержащий только четные числа.
-
-const getEvenNumbers = (numbers) => numbers.filter((val) => val % 2 === 0);
-
-const arr03 = [1, 2, 3, 2, 4, 1, 5, 14, 56, 3, 149];
-
-console.log(getEvenNumbers(arr03));
-
-console.log(arr03);
-
-// 2. Задача: Напишите функцию calculateAverage, которая принимает массив чисел в качестве аргумента и возвращает среднее значение этих чисел.
-
-const calculateAverage = (arrNums) =>
-    arrNums.reduce((accum, val) => accum + val, 0) / arrNums.length;
-
-const arr04 = [1, 2, 3, 2, 4, 1, 5, 0];
-
-console.log(calculateAverage(arr04));
-
-// 3. Напишите функцию capitalizeFirstLetter, которая принимает строку в качестве аргумента и возвращает новую строку, в которой первая буква каждого слова является заглавной.
-
-function capitalizeFirstLetter(stringIn) {
-    const arrWords = stringIn.split(' ');
-
-    const arrWordsCapitalize = arrWords.map(
-        (elem) => elem.charAt(0).toUpperCase() + elem.slice(1)
-    );
-
-    const stringOut = arrWordsCapitalize.join(' ');
-
-    return stringOut;
-}
-
-const str = 'peace, work, may!';
-console.log(capitalizeFirstLetter(str));
-
-const capitalizeFirstLetter1 = (stringIn) =>
-    stringIn
-        .split(' ')
-        .map((elem) => elem.charAt(0).toUpperCase() + elem.slice(1))
-        .join(' ');
-
-const str1 = 'girl, boy, friedns, loves.';
-console.log(capitalizeFirstLetter1(str1));
-
-// Задание 3 (Замыкания 20 минут)
-// 1. Напишите функцию createCalculator, которая принимает начальное значение и возвращает объект с двумя методами: add и subtract. Метод add должен увеличивать значение на переданное число, а метод subtract должен уменьшать значение на переданное число. Значение должно быть доступно только через методы объекта, а не напрямую.
-
-function createCalculator(numInitial) {
-    let value = numInitial;
-    const mathObj = {
-        add: function (num) {
-            value += num;
-        },
-        subtract: function (num) {
-            value -= num;
-        },
-        getValue() {
-            return value;
-        },
-    };
-    return mathObj;
-}
-
-function createCalculator(numInitial) {
-    let value = numInitial;
-    return {
-        add(num) {
-            value += num;
-        },
-        subtract(num) {
-            value -= num;
-        },
-        getValue() {
-            return value;
-        },
-    };
-}
-
-const calculator = createCalculator(5);
-console.log(calculator.getValue());
-calculator.add(15);
-console.log(calculator.getValue());
-calculator.add(40);
-console.log(calculator.getValue());
-calculator.subtract(7);
-console.log(calculator.getValue());
-calculator.subtract(10);
-console.log(calculator.getValue());
-
-// Задание 4 (Лексический контекст 15 минут)
-// 1. Напишите функцию createGreeting, которая принимает имя пользователя и возвращает функцию, которая будет выводить приветствие с использованием этого имени.
-// // Пример использования:
-// const greeting = createGreeting('John');
-// greeting(); // Ожидаемый результат: "Hello, John!"
-
-function createGreeting(firstname) {
-    return function () {
-        return `Hello, ${firstname}`;
-    };
-}
-
-const greeting = createGreeting('John');
-console.log(greeting());
-
-const createGreeting1 = (firstname) => () => `Hello, ${firstname}`;
-
-const greeting1 = createGreeting1('John');
-console.log(greeting1());
-
-// Задание 5 (тайминг 15 минут)
-// 1. Задача: Напишите функцию createPasswordChecker, которая принимает допустимую длину пароля в качестве аргумента и возвращает функцию для проверки введенного пароля. Возвращаемая функция должна принимать пароль и возвращать true, если его длина соответствует допустимой, и false в противном случае.
-// // Пример использования:
-// const isPasswordValid = createPasswordChecker(8); console.log(isPasswordValid('password')); // Ожидаемый результат: false
-// console.log(isPasswordValid('secret')); // Ожидаемый результат: true
-
-function createPasswordChecker(passLenMax) {
-    return function (pass) {
-        return pass.length <= passLenMax;
-    };
-}
-
-const isPasswordValid = createPasswordChecker(8);
-console.log(isPasswordValid('newpassword'));
-console.log(isPasswordValid('secret'));
-
-const createPasswordChecker1 = (passLenMax) => (pass) =>
-    pass.length <= passLenMax;
-
-const isPasswordValid1 = createPasswordChecker1(8);
-console.log(isPasswordValid1('newpassword'));
-console.log(isPasswordValid1('secret'));
-
-// Задание 6 (Рекурсия 25 минут)
-// 1. Напишите рекурсивную функцию sumDigits, которая принимает положительное целое число в качестве аргумента и возвращает сумму его цифр.
-// // Пример использования:
-// console.log(sumDigits(123)); // Ожидаемый результат: 6 (1 + 2 + 3) console.log(sumDigits(456789)); // Ожидаемый результат: 39 (4 + 5 + 6 + 7 + 8 + 9)
-
-function sumDigits(num) {
-    const strNum = num.toString();
-    if (strNum.length === 1) {
-        return Number.parseInt(strNum[0]);
-    }
-    return (
-        Number.parseInt(strNum[0]) + sumDigits(Number.parseInt(strNum.slice(1)))
-    );
-}
-
-console.log(sumDigits(123));
-console.log(sumDigits(456789));
-
-const sumDigits1 = (num) => {
-    const strNum = num.toString();
-    return strNum.length === 1
-        ? Number.parseInt(strNum[0])
-        : Number.parseInt(strNum[0]) +
-              sumDigits(Number.parseInt(strNum.slice(1)));
+const Person = {
+    name: '',
+    age: 0,
+    gender: '',
+    introduce() {
+        console.log(
+            `My name is ${this.name}. I'm ${this.age} years old and I identify as ${this.gender}.`
+        );
+    },
+    changeName(newName) {
+        this.name = newName;
+    },
 };
 
-console.log(sumDigits1(123));
-console.log(sumDigits1(456789));
+Person.name = 'John';
+Person.age = 25;
+Person.gender = 'male';
+Person.introduce();
+Person.changeName('Mike');
+Person.introduce();
 
-// 123 % 10 = 3
-// Math.floor(123 / 10)
-// 12 % 10 = 2
-// Math.floor(12 / 10)
+// Задание 2 (20минут)
+// 1. Создайте объект Animal со свойством name и методом eat(), который выводит сообщение о том, что животное ест. Создайте объект Dog со свойством name и методом bark(), который выводит сообщение о том, что собака лает. Используйте одалживание метода eat() из объекта Animal для объекта Dog, чтобы вывести сообщение о том, что собака ест.
+// // Одалживание метода eat() из объекта Animal к объекту Dog Dog.eat = Animal.eat;
+// Dog.eat(); // Вывод: Rex is eating.
 
-function sumDigits2(num) {
-    if (num % 10 === num) {
-        return num;
+const Animal = {
+    name: '',
+    eat() {
+        console.log(`The ${this.name} is eating.`);
+    },
+};
+
+const Dog = {
+    name: 'Rex',
+    bark() {
+        console.log(`The ${this.name} is barking.`);
+    },
+    eat: Animal.eat,
+};
+Dog.eat();
+
+// Задание 3 (call, apply 20 минут)
+// 1. Создайте объект calculator с методами add(), subtract() и multiply(), которые выполняют соответствующие математические операции над двумя числами. Используйте методы call и apply для вызова этих методов с передачей аргументов.
+// console.log(calculator.add.call(null, 5, 3)); // Вывод: 8 console.log(calculator.subtract.apply(null, [5, 3])); // Вывод: 2
+
+const calculator = {
+    add(a, b) {
+        return a + b;
+    },
+    subtract(a, b) {
+        return a - b;
+    },
+    multiply(a, b) {
+        return a * b;
+    },
+};
+
+console.log(calculator.add.call(null, 5, 3));
+console.log(calculator.subtract.apply(null, [5, 3]));
+
+// Задание 4 (Объекты через class 25 минут)
+// 1. Создайте класс Person, который имеет свойства name и age, а также метод introduce(), который выводит сообщение с представлением имени и возраста персоны.
+// const person = new Person("John", 25);
+// person.introduce(); // Вывод: My name is John and I'm 25 years old.
+
+class Person02 {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
     }
-    return (num % 10) + sumDigits2(Math.floor(num / 10));
+    introduce() {
+        console.log(`My name is ${this.name} and I'm ${this.age} years old.`);
+    }
 }
 
-console.log(sumDigits2(123));
-console.log(sumDigits2(456789));
+const person02 = new Person02('John', 25);
+person02.introduce();
 
-const sumDigits3 = (num) =>
-    num % 10 === num ? num : (num % 10) + sumDigits3(Math.floor(num / 10));
+// Задание 5 (Class 30 минут)
+// Создайте класс BankAccount, который представляет банковский счет. У него должны быть свойства accountNumber (номер счета) и balance (баланс), а также методы deposit(amount) для пополнения счета и withdraw(amount) для снятия денег со счета. Класс должен иметь также статическое свойство bankName, которое содержит название банка.
+// const account1 = new BankAccount("1234567890", 1000); account1.deposit(500); // Вывод: Deposited 500 into account 1234567890. New balance: 1500
+// account1.withdraw(200); // Вывод: Withdrawn 200 from account 1234567890. New balance: 1300
+// account1.withdraw(1500); // Вывод: Insufficient funds in account 1234567890
 
-console.log(sumDigits3(123));
-console.log(sumDigits3(456789));
+class BankAccount {
+    static bankName = 'My Best Bank';
+    constructor(accountNumber, balance = 0) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    deposit(amount) {
+        this.balance += amount;
+        console.log(
+            `Deposited ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`
+        );
+    }
+    withdraw(amount) {
+        if (this.balance >= amount) {
+            this.balance -= amount;
+            console.log(
+                `Withdrawn ${amount} into account ${this.accountNumber}. New balance: ${this.balance}`
+            );
+        } else {
+            console.log(`Insufficient funds in account ${this.accountNumber}.`);
+        }
+    }
+}
+
+const account1 = new BankAccount('1234567890', 1000);
+account1.deposit(500);
+account1.withdraw(200);
+account1.withdraw(1500);
