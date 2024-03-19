@@ -39,19 +39,19 @@ console.log('Конец программы');
 // 4. Откройте запрос с помощью xhr.open("GET", url, true), где "GET" - тип запроса, url - адрес сервера, true - асинхронный режим запроса.
 // 5. Отправьте запрос на сервер с помощью xhr.send().
 
-function loadData(url) {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-        if (xhr.status != 200) {
-            // если статус не 200, то произошла
-            ошибка;
-            console.log(`Error ${xhr.status}: ${xhr.statusText}`);
-        } else {
-            console.log(`user: ${xhr.response}`); // response - это ответ
-            сервера;
-        }
-    };
-}
+// function loadData(url) {
+//     const xhr = new XMLHttpRequest();
+//     xhr.onload = function () {
+//         if (xhr.status != 200) {
+//             // если статус не 200, то произошла
+//             ошибка;
+//             console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+//         } else {
+//             console.log(`user: ${xhr.response}`); // response - это ответ
+//             сервера;
+//         }
+//     };
+// }
 
 // Задание 3 (тайминг 35 минут)
 // Напишите функцию getData, которая делает асинхронный запрос к API и возвращает данные в виде объекта.
@@ -67,8 +67,19 @@ const getData = async (url) => {
             throw new Error(`${response.status} ${response.statusText}`);
         }
         // use response here if we didn't throw above
-        return response.json();
+        const result = await response.json();
+        return result;
     } catch (error) {
-        console.log(error);
+        console.error(error.message);
     }
 };
+
+const url = 'https://jsonplaceholder.typicode.com/comments/100';
+let result;
+
+async function main() {
+    result = await getData(url);
+    console.log(result);
+}
+
+main();
