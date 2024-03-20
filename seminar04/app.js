@@ -28,33 +28,26 @@ let user;
 
 // Task02
 
-// // Example
-// fetch('https://jsonplaceholder.typicode.com/users', {
-//     method: 'POST',
-//     body: JSON.stringify({
-//         name: 'John Smith',
-//         age: 30,
-//         email: 'john@example.com',
-//     }),
-//     headers: {
-//         'Content-type': 'application/json; charset=UTF-8',
-//     },
-// })
-//     .then((response) => response.json())
-//     .then((json) => console.log(json));
-
 const url02 = 'https://jsonplaceholder.typicode.com/users';
 
 async function saveUserData(user) {
-    const response = await fetch(url02, {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-        },
-    });
-    console.log(response.json());
-    return response;
+    try {
+        const response = await fetch(url02, {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`${response.status} ${response.statusText}`);
+        }
+        const responseData = await response.json();
+        console.log(responseData);
+        return response;
+    } catch (err) {
+        console.log(err.message);
+    }
 }
 
 const user02 = {
